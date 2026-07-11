@@ -1,158 +1,75 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>鞋码转换器</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f7fa;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      background: white;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      width: 100%;
-      max-width: 420px;
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 0.5rem;
-    }
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-      color: #555;
-    }
-    select, input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 1rem;
-      box-sizing: border-box;
-      margin-bottom: 1rem;
-    }
-    button {
-      background: #667eea;
-      color: white;
-      border: none;
-      padding: 0.75rem 2rem;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.3s;
-      width: 100%;
-      margin-top: 0.5rem;
-    }
-    button:hover {
-      background: #5a67d8;
-    }
-    #result {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      background: #f0f0f0;
-      border-radius: 8px;
-      font-size: 1rem;
-      text-align: center;
-      display: none;
-    }
-    #result.show {
-      display: block;
-    }
-    .flag {
-      font-size: 1.2rem;
-      margin-right: 0.5rem;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1><span class="flag">👟</span> 鞋码转换器</h1>
-    <p class="subtitle">轻松换算全球不同标准的鞋码
-    
-    <label for="sizeSystem">选择尺码标准：</label>
-    <select id="sizeSystem">
-      <option value="cn">中国码 (CN)</option>
-      <option value="us">美国码 (US)</option>
-      <option value="eu">欧洲码 (EU)</option>
-      <option value="uk">英国码 (UK)</option>
-    </select>
+if (isNaN(size)) {
+  resultDiv.innerHTML = '<span style="color: red;">⚠️ 请输入有效的数字鞋码</span>';
+  resultDiv.classList.add('show');
+  return;
+}
 
-    <label for="inputSize">输入鞋码：</label>
-    <input type="number" id="inputSize" placeholder="例如：40" step="0.5" />
+let eu = 'N/A', us = 'N/A', uk = 'N/A', cn = 'N/A';
+let found = false;
 
-    <button onclick="convertSize()">转换鞋码</button>
+// 核心修复：使用标准对照表进行精确匹配
+// 这里以成人女鞋/中性鞋常见尺码为例，覆盖了大部分情况
+const sizeChart = [
+  { cn: 34, eu: 34, us: 4,   uk: 2 },
+  { cn: 35, eu: 35, us: 4.5, uk: 2.5 },
+  { cn: 36, eu: 36, us: 5,   uk: 3 },
+  { cn: 37, eu: 37, us: 5.5, uk: 3.5 },
+  { cn: 38, eu: 38, us: 6.5, uk: 4.5 },
+  { cn: 39, eu: 39, us: 7,   uk: 5 },
+  { cn: 40, eu: 40, us: 7.5, uk: 5.5 },
+  { cn: 41, eu: 41, us: 8,   uk: 6 },
+  { cn: 42, eu: 42, us: 8.5, uk: 6.5 },
+  { cn: 43, eu: 43, us: 9,   uk: 7 },
+  { cn: 44, eu: 44, us: 9.5, uk: 7.5 },
+  { cn: 45, eu: 45, us: 10,  uk: 8 },
+  { cn: 46, eu: 46, us: 11,  uk: 9 }
+];
 
-    <div id="result"></div>
-  </div>
+// 如果是从美国码开始查
+if (system === 'us') {
+  const match = sizeChart.find(item => item.us == size);
+  if (match) {
+    eu = match.eu; us = match.us; uk = match.uk; cn = match.cn;
+    found = true;
+  }
+} 
+// 如果是从中国码开始查
+else if (system === 'cn') {
+  const match = sizeChart.find(item => item.cn == size);
+  if (match) {
+    eu = match.eu; us = match.us; uk = match.uk; cn = match.cn;
+    found = true;
+  }
+} 
+// 如果是从欧洲码开始查
+else if (system === 'eu') {
+  const match = sizeChart.find(item => item.eu == size);
+  if (match) {
+    eu = match.eu; us = match.us; uk = match.uk; cn = match.cn;
+    found = true;
+  }
+} 
+// 如果是从英国码开始查
+else if (system === 'uk') {
+  const match = sizeChart.find(item => item.uk == size);
+  if (match) {
+    eu = match.eu; us = match.us; uk = match.uk; cn = match.cn;
+    found = true;
+  }
+}
 
-  <script>
-    function convertSize() {
-      const system = document.getElementById('sizeSystem').value;
-      const size = parseFloat(document.getElementById('inputSize').value);
-      const resultDiv = document.getElementById('result');
+// 如果没找到精确匹配，给个提示或者近似值（这里为了简单，只显示精确匹配）
+if (!found) {
+  resultDiv.innerHTML = '<span style="color: orange;">⚠️ 暂未收录该尺码的精确换算，请参考：CN≈EU，US≈CN-33，UK≈CN-34</span>';
+  resultDiv.classList.add('show');
+  return;
+}
 
-      if (isNaN(size)) {
-        resultDiv.innerHTML = '<span style="color: red;">⚠️ 请输入有效的数字鞋码</span>';
-        resultDiv.classList.add('show');
-        return;
-      }
-
-      let eu = '', us = '', uk = '', cn = '';
-
-      // 基于常见成人女鞋/男鞋近似换算（可扩展）
-      if (system === 'cn') {
-        eu = Math.round(size); // 中国码 ≈ 欧码
-        us = Math.round(size * 0.75 - 22); // 女鞋近似
-        uk = Math.round(size * 0.75 - 23);
-        cn = size;
-      } else if (system === 'us') {
-        eu = Math.round(size + 33);
-        cn = Math.round((us + 10) / 2);
-        uk = Math.round(us - 1);
-        us = size;
-      } else if (system === 'eu') {
-        cn = Math.round((size + 10) / 2);
-        us = Math.round(size - 33);
-        uk = Math.round(size - 34);
-        eu = size;
-      } else if (system === 'uk') {
-        us = Math.round(size + 1);
-        eu = Math.round(size + 34);
-        cn = Math.round((size + 34 + 10) / 2);
-        uk = size;
-      }
-
-      // 防止负数或异常值
-      if (us < 0) us = 'N/A';
-      if (eu < 0) eu = 'N/A';
-      if (uk < 0) uk = 'N/A';
-
-      resultDiv.innerHTML = `
-        ✅ <strong>转换结果：</strong>
-        欧码 (EU): ${eu} | 
-        美码 (US): ${us} | 
-        英码 (UK): ${uk}
-      `;
-      resultDiv.classList.add('show');
-    }
-  </script>
-</body>
-</html>
+resultDiv.innerHTML = `
+  ✅ <strong>转换结果：</strong>
+  欧码 (EU): ${eu} &nbsp;|&nbsp; 
+  美码 (US): ${us} &nbsp;|&nbsp; 
+  英码 (UK): ${uk}
+`;
+resultDiv.classList.add('show');
+}
