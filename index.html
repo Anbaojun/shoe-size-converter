@@ -26,7 +26,7 @@
             border-radius: 16px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
             text-align: center;
-            max-width: 460px;
+            max-width: 550px;
             width: 100%;
         }
         .lang-bar {
@@ -114,7 +114,7 @@
             border-radius: 12px;
             font-size: 0.95rem;
             color: #333;
-            min-height: 160px;
+            min-height: 180px;
             border: 2px dashed #e0e0e0;
             display: none;
             text-align: left;
@@ -154,6 +154,31 @@
         .note.show {
             display: block;
         }
+        .footer-links {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #777;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .footer-links a {
+            margin: 0 8px;
+            color: #667eea;
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        .about-text {
+            text-align: left;
+            font-size: 0.9rem;
+            color: #555;
+            padding: 10px;
+            background: #fafafa;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
         @media (max-width: 480px) {
             .container {
                 padding: 1.2rem;
@@ -163,6 +188,9 @@
             }
         }
     </style>
+    <!-- ===== ADSENSE CODE GOES HERE ===== -->
+    <!-- 当你从AdSense获得验证代码后，粘贴在下面这行的位置 -->
+    <!-- 例如：<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-xxxxxxxxxxxxxxxxx" crossorigin="anonymous"></script> -->
 </head>
 <body>
 <div class="container">
@@ -204,6 +232,22 @@
     </div>
 
     <div class="note" id="note">💡 <span id="noteText">The entered size is not in the standard table. Approximate estimation used.</span></div>
+
+    <!-- 底部说明文字（帮助AdSense审核通过） -->
+    <div class="about-text">
+        <strong>About Shoe Sizes</strong><br><br>
+        Shoe sizes vary significantly between countries and regions. 
+        China (CN), Europe (EU), USA (US), and United Kingdom (UK) use different measurement systems. 
+        This tool helps you quickly convert shoe sizes for reference when shopping internationally. 
+        Please note that sizing may slightly differ by brand and shoe type; always check the retailer's size guide when possible.
+    </div>
+
+    <!-- 页脚链接（AdSense要求必须有） -->
+    <div class="footer-links">
+        <a href="#" onclick="alert('Shoe Size Converter is a free online tool for converting shoe sizes between different international standards.'); return false;">About Us</a> |
+        <a href="#" onclick="alert('This website uses cookies and third-party advertising (Google AdSense) to provide its services. By using this site, you consent to the use of cookies.'); return false;">Privacy Policy</a> |
+        <a href="#" onclick="alert('Contact us at: your-email@gmail.com'); return false;">Contact</a>
+    </div>
 </div>
 
 <script>
